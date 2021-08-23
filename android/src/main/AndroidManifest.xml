@@ -2,6 +2,7 @@
           package="com.reactnativeplugpagservicewrapper">
 
   <permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 </manifest>

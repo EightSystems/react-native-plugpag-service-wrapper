@@ -13,6 +13,9 @@ import PlugpagServiceWrapper, {
   EventInformation,
   PlugPagEventData,
   PlugPagPrintResult,
+  PlugPagVoidData,
+  PlugPagNearFieldCardData,
+  PlugPagNFCResult,
 } from './serviceWrapper';
 
 export {
@@ -24,6 +27,9 @@ export {
   EventInformation,
   PlugPagEventData,
   PlugPagPrintResult,
+  PlugPagVoidData,
+  PlugPagNearFieldCardData,
+  PlugPagNFCResult,
 };
 
 export class PlugPagAppIdentification {
@@ -96,6 +102,10 @@ export default class PlugPag {
     return PlugpagServiceWrapper.getLibVersion();
   }
 
+  public checkIsDeviceSupported(): Promise<boolean> {
+    return PlugpagServiceWrapper.checkIsDeviceSupported();
+  }
+
   public invalidateAuthentication(): Promise<boolean> {
     return PlugpagServiceWrapper.invalidateAuthentication();
   }
@@ -106,6 +116,14 @@ export default class PlugPag {
 
   public isServiceBusy(): Promise<boolean> {
     return PlugpagServiceWrapper.isServiceBusy();
+  }
+
+  reprintStablishmentReceipt(): Promise<PlugPagPrintResult> {
+    return PlugpagServiceWrapper.reprintStablishmentReceipt();
+  }
+
+  reprintCustomerReceipt(): Promise<PlugPagPrintResult> {
+    return PlugpagServiceWrapper.reprintCustomerReceipt();
   }
 
   public setPlugPagCustomPrinterLayout(
@@ -147,5 +165,38 @@ export default class PlugPag {
       paymentProgressEventName,
       printerEventName
     );
+  }
+
+  public voidPayment(
+    paymentData: PlugPagVoidData,
+    paymentProgressCallback: Function,
+    printerEventCallback: Function
+  ): Promise<PlugPagTransactionResult> {
+    const paymentProgressEventName = this.getEventNameForCallback(
+      paymentProgressCallback
+    );
+    const printerEventName = this.getEventNameForCallback(printerEventCallback);
+
+    return PlugpagServiceWrapper.voidPayment(
+      paymentData,
+      paymentProgressEventName,
+      printerEventName
+    );
+  }
+
+  public getLastApprovedTransaction(): Promise<PlugPagTransactionResult> {
+    return PlugpagServiceWrapper.getLastApprovedTransaction();
+  }
+
+  public readFromNFCCard(
+    nearFieldCardData: PlugPagNearFieldCardData
+  ): Promise<PlugPagNFCResult> {
+    return PlugpagServiceWrapper.readFromNFCCard(nearFieldCardData);
+  }
+
+  writeToNFCCard(
+    nearFieldCardData: PlugPagNearFieldCardData
+  ): Promise<PlugPagNFCResult> {
+    return PlugpagServiceWrapper.writeToNFCCard(nearFieldCardData);
   }
 }

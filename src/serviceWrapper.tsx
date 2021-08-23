@@ -27,6 +27,25 @@ export type PlugPagPaymentData = {
   printReceipt: Boolean;
 };
 
+export type PlugPagVoidData = {
+  transactionCode: String;
+  transactionId: String;
+  printReceipt: Boolean;
+};
+
+export type PlugPagNearFieldCardData = {
+  startSlot: Number;
+  endSlot: Number;
+  slots?: Map<String, String>[];
+};
+
+export type PlugPagNFCResult = {
+  startSlot: Number;
+  endSlot: Number;
+  result: Number;
+  slots?: Map<String, String>[];
+};
+
 export type PlugPagTransactionResult = {
   amount: String;
   appIdentification: String;
@@ -88,6 +107,8 @@ type PlugpagServiceWrapperType = {
   getApplicationCode(): Promise<string>;
   getLibVersion(): Promise<string>;
 
+  checkIsDeviceSupported(): Promise<boolean>;
+
   invalidateAuthentication(): Promise<boolean>;
   isAuthenticated(): Promise<boolean>;
   isServiceBusy(): Promise<boolean>;
@@ -96,6 +117,11 @@ type PlugpagServiceWrapperType = {
     layoutParams: PlugPagCustomPrinterLayout
   ): Promise<boolean>;
   printFromFile(printerData: PlugPagPrinterData): Promise<boolean>;
+
+  reprintStablishmentReceipt(): Promise<PlugPagPrintResult>;
+  reprintCustomerReceipt(): Promise<PlugPagPrintResult>;
+
+  calculateInstallments(saleValue: Number): Promise<String[]>;
 
   initializeAndActivatePinpad(
     appName: String,
@@ -109,6 +135,21 @@ type PlugpagServiceWrapperType = {
     paymentProgressEventName: String,
     printerEventName: String
   ): Promise<PlugPagTransactionResult>;
+
+  voidPayment(
+    paymentData: PlugPagVoidData,
+    paymentProgressEventName: String,
+    printerEventName: String
+  ): Promise<PlugPagTransactionResult>;
+
+  getLastApprovedTransaction(): Promise<PlugPagTransactionResult>;
+
+  readFromNFCCard(
+    nearFieldCardData: PlugPagNearFieldCardData
+  ): Promise<PlugPagNFCResult>;
+  writeToNFCCard(
+    nearFieldCardData: PlugPagNearFieldCardData
+  ): Promise<PlugPagNFCResult>;
 };
 
 const { PlugpagServiceWrapper } = NativeModules;

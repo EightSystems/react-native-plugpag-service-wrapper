@@ -214,7 +214,7 @@ export default class App extends React.Component<AppProps, AppState> {
             {
               amount: Math.random() * 10000,
               type: type,
-              printReceipt: false,
+              printReceipt: true,
               installmentType: PlugPag.INSTALLMENT_TYPE_A_VISTA,
               installments: 1,
               userReference: 'TEST123',
