@@ -194,9 +194,13 @@ export default class PlugPag {
     return PlugpagServiceWrapper.readFromNFCCard(nearFieldCardData);
   }
 
-  writeToNFCCard(
+  public writeToNFCCard(
     nearFieldCardData: PlugPagNearFieldCardData
   ): Promise<PlugPagNFCResult> {
     return PlugpagServiceWrapper.writeToNFCCard(nearFieldCardData);
+  }
+
+  public abort(): Promise<boolean> {
+    return PlugpagServiceWrapper.abort();
   }
 }

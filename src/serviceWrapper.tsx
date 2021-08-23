@@ -102,7 +102,7 @@ export type PlugPagPrintResult = {
 };
 
 type PlugpagServiceWrapperType = {
-  abort(eventName: String): Promise<any>;
+  abort(): Promise<boolean>;
 
   getApplicationCode(): Promise<string>;
   getLibVersion(): Promise<string>;

@@ -217,19 +217,15 @@ class PlugpagServiceWrapperModule(reactContext: ReactApplicationContext) : React
   }
 
   @ReactMethod
-  fun abort(eventName: String, promise: Promise) {
+  fun abort(promise: Promise) {
     if ( plugpag != null ) {
       plugpag?.asyncAbort(object : PlugPagAbortListener {
         override fun onAbortRequested(abortRequested: Boolean) {
-          sendEvent(reactApplicationContext, eventName, writableMapOf(
-            "abortRequested" to abortRequested
-          ))
+          promise.resolve(abortRequested)
         }
 
         override fun onError(errorMessage: String) {
-          sendEvent(reactApplicationContext, eventName, writableMapOf(
-            "errorMessage" to errorMessage
-          ))
+          promise.reject("2", errorMessage)
         }
       })
     }
